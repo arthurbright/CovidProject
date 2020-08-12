@@ -1,12 +1,24 @@
 const mongoose = require('mongoose');
 
 const orderSchema = mongoose.Schema({
-    recipient: {
+    username: {
         type: String,
         required : true
     },
-    items:[String]
+
+    items:[String],
+
+    longitude:{
+        type: Number,
+        required: true
+    },
+
+    
+    latitude:{
+        type: Number,
+        required: true
+    }
     
 });
 
-module.exports = mongoose.model('Order', orderSchema);
+module.exports = mongoose.model('Orders', orderSchema);
