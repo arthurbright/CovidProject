@@ -1,8 +1,8 @@
 const express = require('express');
 const mongoose = require('mongoose');
 const OrderModel = require('../models/Order');
-const UserModel = require('../models/User');
-
+const RecModel = require('../models/Recipient');
+const VolModel = require('../models/Volunteer');
 
 const router = express.Router();
 
@@ -11,34 +11,39 @@ router.get('/', (req, res)=>{
     res.send('gay');
 })
 
-///////////////////////////////////////////////////////USER STUFF
+///////////////////////////////////////////////////////RECIPIENT FUNCTIONS
 
-//function to get a list of all users
-router.get('/users', async (req, res) =>{
-    const users = await UserModel.find();
+//function to get a list of all recipients
+router.get('/recipients', async (req, res) =>{
+    const users = await RecModel.find();
     res.json(users);
 })
 
-//function to add a new user
-router.post('/users', async(req, res) =>{
+//function to add a new recipient
+router.post('/recipients', async(req, res) =>{
 
     const query = {
         username: req.body.username
     }
 
     //check if username taken
-    UserModel.findOne(query, (err, doc)=>{
+    RecModel.findOne(query, (err, doc)=>{
 
         if(doc == null){
 
             //if not taken, add new user
-            const newUser = new UserModel({
+            const newRec = new RecModel({
                 username: req.body.username,
                 password: req.body.password,
-                name: req.body.name
+                name: req.body.name,
+
+                housenumber: req.body.housenumber,
+                streetname: req.body.streetname,
+                city: req.body.city,
+                postalcode: req.body.postalcode
             })
 
-            newUser.save()
+            newRec.save()
             .then(data => {
                 res.json(data);
             })
@@ -59,7 +64,7 @@ router.post('/users', async(req, res) =>{
 
 
 //function to change password
-router.patch('/users/updatepassword', async(req, res) =>{
+router.patch('/recipients/updatepassword', async(req, res) =>{
 
 
     //requirements: username, password, newpassword
@@ -71,7 +76,7 @@ router.patch('/users/updatepassword', async(req, res) =>{
     }
 
     //find user with matching username
-    let doc = await UserModel.findOne(query);
+    let doc = await RecModel.findOne(query);
 
 
     if(doc == null){
@@ -81,7 +86,7 @@ router.patch('/users/updatepassword', async(req, res) =>{
     else{
         //if user found, check if password matches
         if(doc.password === req.body.password){
-            const updatedDoc =  await UserModel.findOneAndUpdate(query, update, {new: true});
+            const updatedDoc =  await RecModel.findOneAndUpdate(query, update, {new: true});
             res.send(updatedDoc);
         }
         else{
@@ -93,7 +98,7 @@ router.patch('/users/updatepassword', async(req, res) =>{
 })
 
 //function to change username
-router.patch('/users/updatename', async(req, res) =>{
+router.patch('/recipients/updatename', async(req, res) =>{
 
 
     //requirements: username, password, newpassword
@@ -105,7 +110,7 @@ router.patch('/users/updatename', async(req, res) =>{
     }
 
     //find user with matching username
-    let doc = await UserModel.findOne(query);
+    let doc = await RecModel.findOne(query);
 
 
     if(doc == null){
@@ -115,7 +120,7 @@ router.patch('/users/updatename', async(req, res) =>{
     else{
         //if user found, check if password matches
         if(doc.password === req.body.password){
-            const updatedDoc =  await UserModel.findOneAndUpdate(query, update, {new: true});
+            const updatedDoc =  await RecModel.findOneAndUpdate(query, update, {new: true});
             res.send(updatedDoc);
         }
         else{
@@ -126,7 +131,234 @@ router.patch('/users/updatename', async(req, res) =>{
 
 })
 
-//////////////////////////////////////////////////////ORDER STUFF
+
+
+//////////////////////////////////////////////////////VOLUNTEER FUNCTIONS
+//function to get a list of all volunteers
+router.get('/volunteers', async (req, res) =>{
+    const users = await VolModel.find();
+    res.json(users);
+})
+
+//function to add a new volunteer
+router.post('/volunteers', async(req, res) =>{
+
+    const query = {
+        username: req.body.username
+    }
+
+    //check if username taken
+    VolModel.findOne(query, (err, doc)=>{
+
+        if(doc == null){
+
+            //if not taken, add new user
+            const newVol = new VolModel({
+                username: req.body.username,
+                password: req.body.password,
+                name: req.body.name,
+
+                housenumber: req.body.housenumber,
+                streetname: req.body.streetname,
+                city: req.body.city,
+                postalcode: req.body.postalcode
+            })
+
+            newVol.save()
+            .then(data => {
+                res.json(data);
+            })
+            .catch(err =>{
+                console.log(err);
+                res.send('500 Error');
+            })
+
+
+        }
+        else{
+
+            //if taken, send send this
+            res.send("username taken"); //TODO
+        }
+    })
+})
+
+//function to change password
+router.patch('/volunteers/updatepassword', async(req, res) =>{
+
+
+    //requirements: username, password, newpassword
+    const query = {
+        username: req.body.username
+    }
+    const update = {
+        password: req.body.newpassword
+    }
+
+    //find user with matching username
+    let doc = await VolModel.findOne(query);
+
+
+    if(doc == null){
+        //if no user with the username exists
+        res.send("no user found"); //TODO
+    }
+    else{
+        //if user found, check if password matches
+        if(doc.password === req.body.password){
+            const updatedDoc =  await VolModel.findOneAndUpdate(query, update, {new: true});
+            res.send(updatedDoc);
+        }
+        else{
+            //if wrong password
+            res.send("wrong password buddy"); //TODO
+        }
+    }
+
+})
+
+//function to change username
+router.patch('/volunteers/updatename', async(req, res) =>{
+
+
+    //requirements: username, password, newpassword
+    const query = {
+        username: req.body.username
+    }
+    const update = {
+        name: req.body.newname
+    }
+
+    //find user with matching username
+    let doc = await VolModel.findOne(query);
+
+
+    if(doc == null){
+        //if no user with the username exists
+        res.send("no user found"); //TODO
+    }
+    else{
+        //if user found, check if password matches
+        if(doc.password === req.body.password){
+            const updatedDoc =  await VolModel.findOneAndUpdate(query, update, {new: true});
+            res.send(updatedDoc);
+        }
+        else{
+            //if wrong password
+            res.send("wrong password buddy"); //TODO
+        }
+    }
+
+})
+
+//function to set order
+router.post('/volunteers/setorder', async(req, res)=>{
+    const query = {
+        username: req.body.username
+    }
+
+    //fetch the order
+    let order = await OrderModel.findById(req.body.orderid);
+    if(order == null){
+        res.send("invalid order ID");
+        return;
+    }
+    
+    const update = {
+        orderinprogress: true,
+        currentorder: {
+            username: order.username,
+        
+            items:order.items,
+        
+            longitude:order.longitude,
+        
+            latitude:order.latitude
+        }
+    }
+
+
+    let doc = await VolModel.findOne(query);
+    if(doc == null){
+        res.send("no user found bro");
+    }
+    //update the volunteers profile by adding a currentorder
+    else{
+        const updatedDoc =  await VolModel.findOneAndUpdate(query, update, {new: true});
+        res.send(updatedDoc);
+
+        //TODO remove the order from the list
+        const test = OrderModel.findByIdAndDelete(req.body.orderid, (err, doc)=>{
+            console.log(doc);
+        });
+        
+        
+
+    }
+
+
+
+
+})
+//function to remove order
+router.post('/volunteers/removeorder', async (req, res)=>{
+    const query = {
+        username: req.body.username
+    }
+
+    const update = {
+        orderinprogress: false,
+        
+    }
+
+    let doc = await VolModel.findOne(query);
+    if(doc == null){
+        res.send("no user found bro");
+    }
+    else{
+         //if the order was completed, no need to add it back to the stack
+        if(req.body.ordercompleted){
+            const updatedDoc =  await VolModel.findOneAndUpdate(query, update, {new: true});
+            res.send(updatedDoc);
+        }
+        //else, that means the order was aborted and should be returned to the list
+        else{
+            //this gets the old profile of the volunteer, including the order
+            const updatedDoc = VolModel.findOneAndUpdate(query, update, {new: false}, (err, doc) =>{
+                console.log(doc);
+
+                 //add back the order
+                const reorder = new OrderModel({
+                    username: doc.currentorder.username,
+                    items: doc.currentorder.items,
+                    latitude: doc.currentorder.latitude,
+                    longitude: doc.currentorder.longitude
+
+                })
+
+                reorder.save()
+                .then(data => {
+                    res.json(data);
+                })
+                .catch(err =>{
+                    console.log(err);
+                    res.send('500 Error');
+                })
+                    
+                });
+
+            
+            
+
+           
+
+            
+        }
+    }
+   
+})
+
+//////////////////////////////////////////////////////ORDER FUNCTIONS
 
 //function to get all current orders
 router.get("/orders", async (req, res)=>{

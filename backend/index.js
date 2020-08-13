@@ -2,7 +2,8 @@ const express = require('express');
 const fs = require('fs').promises;
 const mongoose = require('mongoose');
 const OrderModel = require('./models/Order');
-const UserModel = require('./models/User');
+const RecModel = require('./models/Recipient');
+const VolModel = require('./models/Volunteer');
 
 const { GridFSBucketWriteStream } = require('mongodb');
 
@@ -15,24 +16,7 @@ app.use('/api', apiRoute);
 app.get('/', async (req, res)=>{
     //res.send(await fs.readFile("..", "utf-8"));
     
-    /*
-    
-    const order = new UserModel({
-        username: "Bob",
-        password: "password123",
-        name: "Bob Smith"
-    })
-
-    order.save()
-    .then(data => {
-        res.json(data);
-    })
-    .catch(err =>{
-        console.log('error occured');
-        res.send('500 Error');
-    })
-    */
-    
+   
 });
 
 
