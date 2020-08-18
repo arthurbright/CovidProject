@@ -408,7 +408,7 @@ router.get("/orders", async (req, res)=>{
     const orders = await OrderModel.find();
     var eligibleOrders = [], latitude, longituide
     //gets the geo data of the volunteer when they want to find orders
-    //should be relocated to user.js
+    //should be relocated to user.js eventually
     function success(pos) {
         var crd = pos.coords;
       
