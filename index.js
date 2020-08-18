@@ -14,7 +14,7 @@ const apiRoute = require('./routes/api');
 app.use('/api', apiRoute);
 
 app.get('/', async (req, res)=>{
-    //res.send(await fs.readFile("..", "utf-8"));
+    res.send("bongourd world");
     
    
 });
