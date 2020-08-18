@@ -406,10 +406,19 @@ router.delete("/orders", async (req, res)=>{
 //function to get all orders within a certain radius of a location
 router.get("/orders", async (req, res)=>{
     const orders = await OrderModel.find();
-    var eligibleOrders = []
+    var eligibleOrders = [], latitude, longituide
+    //gets the geo data of the volunteer when they want to find orders
+    //should be relocated to user.js
+    function success(pos) {
+        var crd = pos.coords;
+      
+        latitude = crd.latitude;
+        longitude = crd.longitude;
+    }
+    navigator.geolocation.getCurrentPosition(success)
     //need to add a loop through orders and use distance function on each
-    if (distance(req.body.latitude, req.body.longitude, order.body.latitude, order.body.longitude) < req.body.radius){
-        eligibleOrders.push([req.body.latitude, req.body.longitude])
+    if (distance(latitude, longitude, order.body.latitude, order.body.longitude) < req.body.radius){
+        eligibleOrders.push([latitude, longitude])
     }
     res.send(eligibleOrders)
 })
