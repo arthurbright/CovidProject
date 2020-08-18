@@ -1,3 +1,4 @@
+import {distance} from '/models/Distance.js';
 const express = require('express');
 const mongoose = require('mongoose');
 const OrderModel = require('../models/Order');
@@ -402,7 +403,15 @@ router.delete("/orders", async (req, res)=>{
 })
 
 //function to get all orders within a certain radius of a location
-
+router.get("/orders", async (req, res)=>{
+    const orders = await OrderModel.find();
+    var eligibleOrders = []
+    //need to add a loop through orders and use distance function on each
+    if (distance(req.body.latitude, req.body.longitude, order.body.latitude, order.body.longitude) < req.body.radius){
+        //push the order into eligibleOrders
+    }
+    res.send(eligibleOrders)
+})
 
 
 
