@@ -409,7 +409,6 @@ router.get("/orders", async (req, res)=>{
     var eligibleOrders = []
     //need to add a loop through orders and use distance function on each
     if (distance(req.body.latitude, req.body.longitude, order.body.latitude, order.body.longitude) < req.body.radius){
-        //push the order into eligibleOrders
         eligibleOrders.push([req.body.latitude, req.body.longitude])
     }
     res.send(eligibleOrders)
