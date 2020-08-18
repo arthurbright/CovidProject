@@ -38,6 +38,11 @@ const volunteerSchema = mongoose.Schema({
         required: true
     },
 
+    radius:{
+        type: Number,
+        required: true
+    },
+
 
 
     //current order info, set as null if no current order

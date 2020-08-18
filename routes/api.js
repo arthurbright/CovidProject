@@ -41,7 +41,8 @@ router.post('/recipients', async(req, res) =>{
                 housenumber: req.body.housenumber,
                 streetname: req.body.streetname,
                 city: req.body.city,
-                postalcode: req.body.postalcode
+                postalcode: req.body.postalcode,
+                radius: req.body.radius
             })
 
             newRec.save()
