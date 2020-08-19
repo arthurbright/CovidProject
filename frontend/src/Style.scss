@@ -1,0 +1,46 @@
+*{
+    margin: 20px;
+}
+
+form{
+    margin: 0px;
+    border: rgb(212, 30, 30);
+}
+
+.title{
+    font-size: 65pt;
+    font-weight: bold;
+    text-align: center;
+}
+
+body{
+    background-color: lightgrey;
+}
+h1{
+    color: rgb(111, 194, 233);
+    font-size: 50pt;
+    text-align: center;
+    margin: 15px;
+}
+h2{
+    text-align: center;
+}
+.bigButton{
+    background-color: orange;
+    padding: 20px;
+    
+}
+.bigButton:hover{
+    background-color: darkorange;
+}
+.mediumButton{
+    background-color: skyblue;
+    padding: 10px;
+    
+}
+.mediumButton:hover{
+    background-color: rgb(99, 196, 235);
+}
+.loginLabel{
+    text-align: right;
+}
