@@ -91,8 +91,12 @@ export default class new_Recipient extends Component{
             radius: this.state.radius
         }
         console.log(user);
+        
+        /*
         axios.post('./new_Recipient', user)
             .then(res => console.log(res.data));
+
+            idk how this works yet^*/
         
     }
 

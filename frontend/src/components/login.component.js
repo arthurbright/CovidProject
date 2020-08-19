@@ -32,17 +32,18 @@ export default class login extends Component{
 
     onSubmit(e){
         e.preventDefault();
-        //login(this.state)
-        /*
-        ^ will check database to see if login is successful
-        */
+        //login(this.state)?
+
         const user = {
             username: this.state.username,
             password: this.state.password
         }
         console.log(user);
+
+        /*
         axios.post('./login', user)
             .then(res => console.log(res.data));
+            idk how this works yet */
         
     }
 
