@@ -163,9 +163,9 @@ export default class new_Recipient extends Component{
                         <label className="col-lg-2 col-sm-4 loginLabel">City: </label> 
                         <input className="col-lg-3 col-sm-6"
                         type="text"
-                        placeholder="Enter Street Name" 
-                        name="streetName"
-                        onChange={this.onChangeStreetName}
+                        placeholder="Enter City" 
+                        name="city"
+                        onChange={this.onChangeCity}
                         required
                         />
 
