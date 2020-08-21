@@ -1,4 +1,4 @@
-import {distance} from '/models/Distance.js';
+const {distance} = require( '../models/Distance.js');
 const express = require('express');
 const mongoose = require('mongoose');
 const OrderModel = require('../models/Order');
@@ -42,7 +42,7 @@ router.post('/recipients', async(req, res) =>{
                 streetname: req.body.streetname,
                 city: req.body.city,
                 postalcode: req.body.postalcode,
-                radius: req.body.radius
+                
             })
 
             newRec.save()
@@ -163,7 +163,9 @@ router.post('/volunteers', async(req, res) =>{
                 housenumber: req.body.housenumber,
                 streetname: req.body.streetname,
                 city: req.body.city,
-                postalcode: req.body.postalcode
+                postalcode: req.body.postalcode,
+
+                radius: 5 //default
             })
 
             newVol.save()
@@ -404,23 +406,38 @@ router.delete("/orders", async (req, res)=>{
 })
 
 //function to get all orders within a certain radius of a location
-router.get("/orders", async (req, res)=>{
-    const orders = await OrderModel.find();
-    var eligibleOrders = [], latitude, longituide
+router.get("/orders/search", async (req, res)=>{
+    //query parameter radius
+    const radius = req.query.radius;
+
+    var latitude;
+    var longitude;
+
     //gets the geo data of the volunteer when they want to find orders
     //should be relocated to user.js eventually to be used as part of req
+
+
     function success(pos) {
         var crd = pos.coords;
       
         latitude = crd.latitude;
         longitude = crd.longitude;
     }
-    navigator.geolocation.getCurrentPosition(success)
-    //need to add a loop through orders and use distance function on each
-    if (distance(latitude, longitude, order.body.latitude, order.body.longitude) < req.body.radius){
-        eligibleOrders.push([latitude, longitude])
-    }
-    res.send(eligibleOrders)
+    navigator.geolocation.getCurrentPosition(success) //todo
+
+
+    const orders = await OrderModel.find();
+    var eligibleOrders = [];
+    //loop through orders and use distance function on each
+    orders.forEach((val) =>{
+        if (distance(latitude, longitude, val.latitude, val.longitude) < radius){
+            eligibleOrders.push(val);
+        }
+        
+    })
+
+    res.json(eligibleOrders);
+    
 })
 
 
