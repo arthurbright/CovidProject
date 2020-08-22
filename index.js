@@ -1,4 +1,5 @@
 const express = require('express');
+const cors = require('cors');
 const fs = require('fs').promises;
 const mongoose = require('mongoose');
 const OrderModel = require('./models/Order');
@@ -9,6 +10,7 @@ const VolModel = require('./models/Volunteer');
 
 const app = express();
 app.use(express.json());
+app.use(cors());
 const apiRoute = require('./routes/api');
 app.use('/api', apiRoute);
 

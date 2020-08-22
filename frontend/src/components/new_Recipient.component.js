@@ -22,10 +22,10 @@ export default class new_Recipient extends Component{
             username: '',
             password: '',
             name: '',
-            houseNumber: '',
-            streetName: '',
+            housenumber: '',
+            streetname: '',
             city: '',
-            postalCode: '',
+            postalcode: '',
             radius: '',
         }
     }
@@ -49,12 +49,12 @@ export default class new_Recipient extends Component{
     }
     onChangeHouseNumber(e){
         this.setState({
-            houseNumber: e.target.value
+            housenumber: e.target.value
         });
     }
     onChangeStreetName(e){
         this.setState({
-            streetName: e.target.value
+            streetname: e.target.value
         });
     }
     onChangeCity(e){
@@ -64,7 +64,7 @@ export default class new_Recipient extends Component{
     }
     onChangePostalCode(e){
         this.setState({
-            postalCode: e.target.value
+            postalcode: e.target.value
         });
     }
     onChangeRadius(e){
@@ -76,27 +76,22 @@ export default class new_Recipient extends Component{
 
     onSubmit(e){
         e.preventDefault();
-        //login(this.state)
-        /*
-        ^ will check database to see if login is successful
-        */
         const user = {
             username: this.state.username,
             password: this.state.password,
             name: this.state.name,
-            houseNumber: this.state.houseNumber,
-            streetName: this.state.streetName,
+            housenumber: this.state.housenumber,
+            streetname: this.state.streetname,
             city: this.state.city,
-            postalCode: this.state.postalCode,
+            postalcode: this.state.postalcode,
             radius: this.state.radius
         }
         console.log(user);
         
-        /*
-        axios.post('./new_Recipient', user)
+        
+        axios.post('http://localhost:3000/api/recipients', user)
             .then(res => console.log(res.data));
 
-            idk how this works yet^*/
         
     }
 
