@@ -89,7 +89,7 @@ export default class new_Recipient extends Component{
         console.log(user);
         
         
-        axios.post('http://localhost:3000/api/recipients', user)
+        axios.post('https://covid--project.herokuapp.com/api/recipients', user)
             .then(res => console.log(res.data));
 
         
