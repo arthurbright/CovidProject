@@ -17,7 +17,7 @@ const apiRoute = require('./routes/api');
 app.use('/api', apiRoute);
 app.use("/", express.static('./frontend/src'))
 
-app.get('/', async (req, res)=>{
+app.get('*', async (req, res)=>{
     res.sendFile(path.join(__dirname, "/frontend/public/index.html"), "utf8");
 
 });
