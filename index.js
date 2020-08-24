@@ -1,23 +1,25 @@
 const express = require('express');
-const cors = require('cors');
+//const cors = require('cors');
 const fs = require('fs').promises;
 const mongoose = require('mongoose');
 const OrderModel = require('./models/Order');
 const RecModel = require('./models/Recipient');
 const VolModel = require('./models/Volunteer');
+const path = require('path');
 
 
 
 const app = express();
 app.use(express.json());
-app.use(cors());
+//app.use(cors());
+
 const apiRoute = require('./routes/api');
 app.use('/api', apiRoute);
+app.use("/", express.static('./frontend/src'))
 
 app.get('/', async (req, res)=>{
-    res.send("this is a placeholder");
-    
-   
+    res.sendFile(path.join(__dirname, "/frontend/public/index.html"), "utf8");
+
 });
 
 
