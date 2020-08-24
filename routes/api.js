@@ -23,45 +23,38 @@ router.get('/recipients', async (req, res) =>{
 //function to add a new recipient
 router.post('/recipients', async(req, res) =>{
 
-    const query = {
-        username: req.body.username
+    if(await usernameTaken(req.body.username) == false){
+
+        
+        const newRec = new RecModel({
+            username: req.body.username,
+            password: req.body.password,
+            name: req.body.name,
+
+            housenumber: req.body.housenumber,
+            streetname: req.body.streetname,
+            city: req.body.city,
+            postalcode: req.body.postalcode,
+            
+        })
+
+        newRec.save()
+        .then(data => {
+            res.json(data);
+        })
+        .catch(err =>{
+            console.log(err);
+            res.send('500 Error');
+        })
+
+
+    }
+    else{
+
+        //if taken, send send this
+        res.send("username taken"); //TODO
     }
 
-    //check if username taken
-    RecModel.findOne(query, (err, doc)=>{
-
-        if(doc == null){
-
-            //if not taken, add new user
-            const newRec = new RecModel({
-                username: req.body.username,
-                password: req.body.password,
-                name: req.body.name,
-
-                housenumber: req.body.housenumber,
-                streetname: req.body.streetname,
-                city: req.body.city,
-                postalcode: req.body.postalcode,
-                
-            })
-
-            newRec.save()
-            .then(data => {
-                res.json(data);
-            })
-            .catch(err =>{
-                console.log(err);
-                res.send('500 Error');
-            })
-
-
-        }
-        else{
-
-            //if taken, send send this
-            res.send("username taken"); //TODO
-        }
-    })
 })
 
 
@@ -69,33 +62,33 @@ router.post('/recipients', async(req, res) =>{
 router.patch('/recipients/updatepassword', async(req, res) =>{
 
 
-    //requirements: username, password, newpassword
-    const query = {
-        username: req.body.username
-    }
-    const update = {
-        password: req.body.newpassword
-    }
+//requirements: username, password, newpassword
+const query = {
+    username: req.body.username
+}
+const update = {
+    password: req.body.newpassword
+}
 
-    //find user with matching username
-    let doc = await RecModel.findOne(query);
+//find user with matching username
+let doc = await RecModel.findOne(query);
 
 
-    if(doc == null){
-        //if no user with the username exists
-        res.send("no user found"); //TODO
+if(doc == null){
+    //if no user with the username exists
+    res.send("no user found"); //TODO
+}
+else{
+    //if user found, check if password matches
+    if(doc.password === req.body.password){
+        const updatedDoc =  await RecModel.findOneAndUpdate(query, update, {new: true});
+        res.send(updatedDoc);
     }
     else{
-        //if user found, check if password matches
-        if(doc.password === req.body.password){
-            const updatedDoc =  await RecModel.findOneAndUpdate(query, update, {new: true});
-            res.send(updatedDoc);
-        }
-        else{
-            //if wrong password
-            res.send("wrong password buddy"); //TODO
-        }
+        //if wrong password
+        res.send("wrong password buddy"); //TODO
     }
+}
 
 })
 
@@ -103,33 +96,33 @@ router.patch('/recipients/updatepassword', async(req, res) =>{
 router.patch('/recipients/updatename', async(req, res) =>{
 
 
-    //requirements: username, password, newpassword
-    const query = {
-        username: req.body.username
-    }
-    const update = {
-        name: req.body.newname
-    }
+//requirements: username, password, newpassword
+const query = {
+    username: req.body.username
+}
+const update = {
+    name: req.body.newname
+}
 
-    //find user with matching username
-    let doc = await RecModel.findOne(query);
+//find user with matching username
+let doc = await RecModel.findOne(query);
 
 
-    if(doc == null){
-        //if no user with the username exists
-        res.send("no user found"); //TODO
+if(doc == null){
+    //if no user with the username exists
+    res.send("no user found"); //TODO
+}
+else{
+    //if user found, check if password matches
+    if(doc.password === req.body.password){
+        const updatedDoc =  await RecModel.findOneAndUpdate(query, update, {new: true});
+        res.send(updatedDoc);
     }
     else{
-        //if user found, check if password matches
-        if(doc.password === req.body.password){
-            const updatedDoc =  await RecModel.findOneAndUpdate(query, update, {new: true});
-            res.send(updatedDoc);
-        }
-        else{
-            //if wrong password
-            res.send("wrong password buddy"); //TODO
-        }
+        //if wrong password
+        res.send("wrong password buddy"); //TODO
     }
+}
 
 })
 
@@ -145,46 +138,40 @@ router.get('/volunteers', async (req, res) =>{
 //function to add a new volunteer
 router.post('/volunteers', async(req, res) =>{
 
-    const query = {
-        username: req.body.username
+    
+    if(await usernameTaken(req.body.username) == false){
+
+        //if not taken, add new user
+        const newVol = new VolModel({
+            username: req.body.username,
+            password: req.body.password,
+            name: req.body.name,
+
+            housenumber: req.body.housenumber,
+            streetname: req.body.streetname,
+            city: req.body.city,
+            postalcode: req.body.postalcode,
+
+            radius: 5 //default
+        })
+
+        newVol.save()
+        .then(data => {
+            res.json(data);
+        })
+        .catch(err =>{
+            console.log(err);
+            res.send('500 Error');
+        })
+
+
     }
+    else{
 
-    //check if username taken
-    VolModel.findOne(query, (err, doc)=>{
-
-        if(doc == null){
-
-            //if not taken, add new user
-            const newVol = new VolModel({
-                username: req.body.username,
-                password: req.body.password,
-                name: req.body.name,
-
-                housenumber: req.body.housenumber,
-                streetname: req.body.streetname,
-                city: req.body.city,
-                postalcode: req.body.postalcode,
-
-                radius: 5 //default
-            })
-
-            newVol.save()
-            .then(data => {
-                res.json(data);
-            })
-            .catch(err =>{
-                console.log(err);
-                res.send('500 Error');
-            })
-
-
-        }
-        else{
-
-            //if taken, send send this
-            res.send("username taken"); //TODO
-        }
-    })
+        //if taken, send this
+        res.send("username taken"); //TODO
+    }
+    
 })
 
 //function to change password
@@ -405,7 +392,7 @@ router.delete("/orders", async (req, res)=>{
     });
 })
 
-//function to get all orders within a certain radius of a location
+//function to get all orders within a certain radius of a location //TODO
 router.get("/orders/search", async (req, res)=>{
     //query parameter radius
     const radius = req.query.radius;
@@ -440,7 +427,50 @@ router.get("/orders/search", async (req, res)=>{
     
 })
 
+//////////////////////////////////////////////LOGIN FUNCTION
+router.post("/login", async (req, res)=>{
+    const query = {
+        username: req.body.username,
+        password: req.body.password
+    }
 
+    //check recipients
+    let doc1 = await RecModel.findOne(query);
+    
+    //check volunteers
+    let doc2 = await RecModel.findOne(query);
+
+    if(doc1 == null && doc2 == null){
+        res.json({
+            valid: false
+        })
+    }
+    else{
+        res.json({
+            valid: true
+        })
+    }
+}
+
+
+////////////////////////////////////////////////HELPER FUNCTIONS
+
+//function to check if a username has been taken
+async function usernameTaken(un){
+    query = {
+        username: un
+    }
+
+    let doc1 = await RecModel.findOne(query);
+    let doc2 = await VolModel.findOne(query);
+
+    if(doc1 == null && doc2 == null){
+        return false;
+    }
+    else{
+        return true;
+    }
+}
 
 
 module.exports = router;
