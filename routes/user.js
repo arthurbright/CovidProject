@@ -1,6 +1,7 @@
 //SESSION/COOKIES TEMPLATE CODE - CAN BE USED HERE OR IN index.js IF NECESSARY LATER
 
 /*
+var session = require('client-sessions');
 app.use(session({
     cookieName: 'session',
     secret: 'random string', //long ass random unguessable str
