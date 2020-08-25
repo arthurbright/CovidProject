@@ -6,12 +6,13 @@ const OrderModel = require('./models/Order');
 const RecModel = require('./models/Recipient');
 const VolModel = require('./models/Volunteer');
 const path = require('path');
-
-
+var session = require('client-sessions');
 
 const app = express();
 app.use(express.json());
 //app.use(cors());
+
+//TEMPLATE CODE FOR SESSIONS IN user.js USE IF NECESSARY
 
 const apiRoute = require('./routes/api');
 app.use('/api', apiRoute);
