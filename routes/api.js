@@ -462,7 +462,7 @@ router.get('/logout', function(req, res) {
 ////////SESSION FUNCTIONS - EDIT THEN ADD
 /*
 middleware function - call this when redirecting to another page to ensure that the user is logged in and session has not expired
-app.use(function(req, res, next) {
+router.use(function(req, res, next) {
     if (req.session && req.session.user) {
       //change this to search if user session is active
       User.findOne({ email: req.session.user.email }, function(err, user) {
@@ -512,9 +512,9 @@ async function usernameTaken(un){
     }
 }
 
-//////GET HOMEPAGE:
-router.get('/', requireLogin, function(req, res) {
-    res.render('template.html');
+//////GET Dashboard:
+router.get('/dashboard', requireLogin, function(req, res) {
+    res.render('dash.html');
 });
 
 
