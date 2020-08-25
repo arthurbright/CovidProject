@@ -15,9 +15,11 @@ app.use(express.json());
 //TEMPLATE CODE FOR SESSIONS IN user.js USE IF NECESSARY
 app.use(session({
     cookieName: 'session',
-    secret: 'random string', //long ass random unguessable str
-    duration: 30 * 60 * 1000, //how long the session remains active in ms,
-    activeDuration: 5 * 60 * 1000, //if user stays on session and remaining time is less than activeDuration, session time+=activeDuration
+    secret: 'd;lkjfadkl;jfdkl;sjf', //long ass random unguessable str
+    resave: false,
+    saveUninitialized: false,
+    duration: 30 * 60 * 1000, //how long the session remains active in ms (30mins),
+    activeDuration: 5 * 60 * 1000, //if user stays on session and remaining time is less than activeDuration, session time+=activeDuration (extra 5 mins)
     httpOnly: true,
     secure: true,
     ephemeral: true
