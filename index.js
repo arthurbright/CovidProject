@@ -13,6 +13,15 @@ app.use(express.json());
 //app.use(cors());
 
 //TEMPLATE CODE FOR SESSIONS IN user.js USE IF NECESSARY
+app.use(session({
+    cookieName: 'session',
+    secret: 'random string', //long ass random unguessable str
+    duration: 30 * 60 * 1000, //how long the session remains active in ms,
+    activeDuration: 5 * 60 * 1000, //if user stays on session and remaining time is less than activeDuration, session time+=activeDuration
+    httpOnly: true,
+    secure: true,
+    ephemeral: true
+}));
 
 const apiRoute = require('./routes/api');
 app.use('/api', apiRoute);
