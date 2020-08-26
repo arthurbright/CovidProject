@@ -455,13 +455,9 @@ router.post("/login", async (req, res)=>{
     else{
         res.json({
             valid: false
-            
         })
     }
-
-
-   
-}
+})
 
 
 ////////////////////////////////////////////////HELPER FUNCTIONS
