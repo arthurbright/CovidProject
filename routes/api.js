@@ -513,9 +513,11 @@ async function usernameTaken(un){
 }
 
 //////GET Dashboard:
+/*
 router.get('/dashboard', requireLogin, function(req, res) {
     res.render('dash.html');
 });
+*/
 
 
 module.exports = router;
