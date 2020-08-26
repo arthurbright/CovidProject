@@ -438,18 +438,29 @@ router.post("/login", async (req, res)=>{
     let doc1 = await RecModel.findOne(query);
     
     //check volunteers
-    let doc2 = await RecModel.findOne(query);
+    let doc2 = await VolModel.findOne(query);
 
-    if(doc1 == null && doc2 == null){
+    if(doc1 != null){
         res.json({
-            valid: false
+            valid: true,
+            type: "recipient"
+        })
+    }
+    else if(doc2 != null){
+        res.json({
+            valid: true,
+            type: "volunteer"
         })
     }
     else{
         res.json({
-            valid: true
+            valid: false
+            
         })
     }
+
+
+   
 }
 
 
