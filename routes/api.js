@@ -427,7 +427,7 @@ router.get("/orders/search", async (req, res)=>{
     
 })
 
-//////////////////////////////////////////////LOGIN FUNCTION
+//////////////////////////////////////////////LOGIN FUNCTIONS
 router.post("/login", async (req, res)=>{
     const query = {
         username: req.body.username,
@@ -456,9 +456,49 @@ router.post("/login", async (req, res)=>{
         res.json({
             valid: false
         })
+        req.session.user = user;
+        res.redirect('/');
     }
 })
 
+router.get('/logout', function(req, res) {
+    req.session.reset();
+    res.redirect('/');
+  });
+
+////////SESSION FUNCTIONS - EDIT THEN ADD
+/*
+middleware function - call this when redirecting to another page to ensure that the user is logged in and session has not expired
+router.use(function(req, res, next) {
+    if (req.session && req.session.user) {
+      //change this to search if user session is active
+      User.findOne({ email: req.session.user.email }, function(err, user) {
+        //session is done...redirect to login
+        if (user) {
+          req.user = user;
+          delete req.user.password; // delete the password from the session
+          req.session.user = user;  //refresh the session value
+          res.locals.user = user;
+        }
+        // finishing processing the middleware and run the route
+        next();
+      });
+    } else {
+      //session is active...redirect to desired page
+      next();
+    }
+  });
+
+//checks if user is logged in
+function requireLogin (req, res, next) {
+  if (!req.user) {
+    res.redirect('/login');
+  } else {
+    next();
+  }
+};
+
+*/
 
 ////////////////////////////////////////////////HELPER FUNCTIONS
 
@@ -478,6 +518,13 @@ async function usernameTaken(un){
         return true;
     }
 }
+
+//////GET Dashboard:
+/*
+router.get('/dashboard', requireLogin, function(req, res) {
+    res.render('dash.html');
+});
+*/
 
 
 module.exports = router;
