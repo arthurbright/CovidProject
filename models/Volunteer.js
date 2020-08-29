@@ -18,12 +18,7 @@ const volunteerSchema = mongoose.Schema({
 
 
     //address fields
-    housenumber:{
-        type: Number,
-        required: true
-    },
-
-    streetname:{
+    address:{
         type: String,
         required: true
     },

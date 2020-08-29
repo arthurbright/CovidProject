@@ -31,8 +31,7 @@ router.post('/recipients', async(req, res) =>{
             password: req.body.password,
             name: req.body.name,
 
-            housenumber: req.body.housenumber,
-            streetname: req.body.streetname,
+            address: req.body.address,
             city: req.body.city,
             postalcode: req.body.postalcode,
             
@@ -62,33 +61,33 @@ router.post('/recipients', async(req, res) =>{
 router.patch('/recipients/updatepassword', async(req, res) =>{
 
 
-//requirements: username, password, newpassword
-const query = {
-    username: req.body.username
-}
-const update = {
-    password: req.body.newpassword
-}
+    //requirements: username, password, newpassword
+    const query = {
+        username: req.body.username
+    }
+    const update = {
+        password: req.body.newpassword
+    }
 
-//find user with matching username
-let doc = await RecModel.findOne(query);
+    //find user with matching username
+    let doc = await RecModel.findOne(query);
 
 
-if(doc == null){
-    //if no user with the username exists
-    res.send("no user found"); //TODO
-}
-else{
-    //if user found, check if password matches
-    if(doc.password === req.body.password){
-        const updatedDoc =  await RecModel.findOneAndUpdate(query, update, {new: true});
-        res.send(updatedDoc);
+    if(doc == null){
+        //if no user with the username exists
+        res.send("no user found"); //TODO
     }
     else{
-        //if wrong password
-        res.send("wrong password buddy"); //TODO
+        //if user found, check if password matches
+        if(doc.password === req.body.password){
+            const updatedDoc =  await RecModel.findOneAndUpdate(query, update, {new: true});
+            res.send(updatedDoc);
+        }
+        else{
+            //if wrong password
+            res.send("wrong password buddy"); //TODO
+        }
     }
-}
 
 })
 
@@ -96,33 +95,33 @@ else{
 router.patch('/recipients/updatename', async(req, res) =>{
 
 
-//requirements: username, password, newpassword
-const query = {
-    username: req.body.username
-}
-const update = {
-    name: req.body.newname
-}
+    //requirements: username, password, newpassword
+    const query = {
+        username: req.body.username
+    }
+    const update = {
+        name: req.body.newname
+    }
 
-//find user with matching username
-let doc = await RecModel.findOne(query);
+    //find user with matching username
+    let doc = await RecModel.findOne(query);
 
 
-if(doc == null){
-    //if no user with the username exists
-    res.send("no user found"); //TODO
-}
-else{
-    //if user found, check if password matches
-    if(doc.password === req.body.password){
-        const updatedDoc =  await RecModel.findOneAndUpdate(query, update, {new: true});
-        res.send(updatedDoc);
+    if(doc == null){
+        //if no user with the username exists
+        res.send("no user found"); //TODO
     }
     else{
-        //if wrong password
-        res.send("wrong password buddy"); //TODO
+        //if user found, check if password matches
+        if(doc.password === req.body.password){
+            const updatedDoc =  await RecModel.findOneAndUpdate(query, update, {new: true});
+            res.send(updatedDoc);
+        }
+        else{
+            //if wrong password
+            res.send("wrong password buddy"); //TODO
+        }
     }
-}
 
 })
 
@@ -147,8 +146,7 @@ router.post('/volunteers', async(req, res) =>{
             password: req.body.password,
             name: req.body.name,
 
-            housenumber: req.body.housenumber,
-            streetname: req.body.streetname,
+            address: req.body.address,
             city: req.body.city,
             postalcode: req.body.postalcode,
 

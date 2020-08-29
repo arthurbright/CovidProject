@@ -19,12 +19,7 @@ const recipientSchema = mongoose.Schema({
 
 
     //Address fields
-    housenumber:{
-        type: Number,
-        required: true
-    },
-
-    streetname:{
+    address:{
         type: String,
         required: true
     },
